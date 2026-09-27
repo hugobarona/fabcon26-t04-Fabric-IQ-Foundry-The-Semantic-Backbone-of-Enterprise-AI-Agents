@@ -18,9 +18,47 @@ beeping. Quality finds out if someone phones. Finance finds out as a write-off.
 
 All the data exists. None of it is connected.
 
-**The question the demo answers in one sentence:**
+**The question nobody can answer:**
 
 > *"Which products are at risk right now, in which freezer and store, and worth how much?"*
+
+That question is unanswerable not because the data is missing, but because the **meaning** is. It
+spans live sensor readings and analytical tables, and it depends on facts nobody has written down
+anywhere a machine can use: that a freezer belongs to a store, that stock is counted per freezer, that
+"at risk" means past a threshold, that "worth" means stock value rather than sales revenue.
+
+## What this demo actually shows
+
+Not a chatbot answering a question. **A shared semantic layer that makes the question answerable —
+once — for every agent that follows.**
+
+The demo builds that layer as a **Fabric IQ ontology**: business entities, named relationships, and
+bindings to real data across two completely different engines. Then it puts **three different agents**
+on top of that one definition and shows them all reasoning correctly without any of them being told
+how the data is stored.
+
+| What the ontology provides | Why it matters |
+|---|---|
+| **Business entities, not tables** | Agents ask about a `Freezer`, not about `dimstore` joined to `factsales` |
+| **Named relationships** — `operatedBy`, `storedIn`, `of` | Traversal without a human writing joins. The meaning is declared once, not re-inferred per prompt |
+| **Federated bindings** | One `Freezer` entity spans a **lakehouse** table and a **live eventhouse stream**. The consumer never knows there were two engines |
+| **One definition, many consumers** | Three agents, three runtimes, zero duplicated modelling |
+| **Governed and permission-aware** | Queries run as the signed-in user, so existing Fabric permissions still apply |
+
+### The technologies it exercises
+
+**Fabric IQ ontology** (preview) for the semantic layer · **Fabric Graph** for materialised entities
+and traversal · **Eventhouse and Eventstream** for live telemetry queried in place with KQL ·
+**Direct Lake semantic model** as the generation starting point · **Fabric data agents** (GA) for
+in-Fabric consumption · **Foundry IQ knowledge bases** and **Foundry Agent Service** for agents built
+outside Fabric · **Real-Time Intelligence operations agents** for autonomous monitoring and action.
+
+### What that unlocks beyond one question
+
+Because the meaning lives in the semantic layer rather than in a prompt, the same ontology answers
+questions nobody wrote instructions for — *which stores hold the most stock*, *which freezers have a
+humidity fault*, *what a breach costs* — and the next agent you build inherits all of it on day one.
+That is the difference between a demo and a foundation.
 
 ---
 
@@ -109,7 +147,7 @@ The Lakeshore Retail scenario is adapted from Microsoft's own
 [ontology tutorial](https://learn.microsoft.com/fabric/iq/ontology/tutorial-0-introduction).
 The sample data here is generated rather than Microsoft's, so the figures differ.
 
-Built by [Hugo Barona](https://www.linkedin.com/in/hugomiguelbarona/) — Cloudnitio, Ireland.
+Built by [Hugo Barona](https://www.linkedin.com/in/hugobarona/) — CloudNitio, Ireland.
 
 ## Licence
 
