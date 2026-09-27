@@ -147,7 +147,7 @@ The Lakeshore Retail scenario is adapted from Microsoft's own
 [ontology tutorial](https://learn.microsoft.com/fabric/iq/ontology/tutorial-0-introduction).
 The sample data here is generated rather than Microsoft's, so the figures differ.
 
-Built by [Hugo Barona](https://www.linkedin.com/in/hugobarona/) — CloudNitio, Ireland.
+Built by [Hugo Barona](https://www.linkedin.com/in/hugomiguelbarona/) — Cloudnitio, Ireland.
 
 ## Licence
 
