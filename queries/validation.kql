@@ -1,0 +1,41 @@
+// Lakeshore Retail — telemetry validation
+// Run these in the LakeshoreRetailEH KQL queryset after loading or reloading data.
+
+// A. Lowest humidity per freezer
+//    Expect two freezers below 46% (the defrost-fault units) and three around 47-50%.
+FreezerTelemetry
+| summarize Lowest = round(min(humidityPct), 1) by freezerId
+| order by freezerId asc
+
+// B. Historical temperature excursions
+//    Expect exactly two freezers. A third means rehearsal breach data survived a reload.
+FreezerTelemetry
+| where temperatureC > -18.0
+| summarize Breaches = count(), Warmest = round(max(temperatureC), 2) by freezerId
+
+// C. Coverage and store pairings
+//    Expect five rows. With the simulator running, Latest is within the last minute.
+FreezerTelemetry
+| summarize Readings = count(), First = min(timestamp), Latest = max(timestamp)
+  by freezerId, storeId
+| order by freezerId asc
+
+// D. Duplicates -> expect 0
+FreezerTelemetry
+| summarize n = count() by freezerId, timestamp
+| where n > 1
+| count
+
+// E. Continuity -> expect ~30 daily buckets with no gaps
+FreezerTelemetry
+| summarize Readings = count() by bin(timestamp, 1d)
+| order by timestamp asc
+
+// F. Is anything arriving right now?
+FreezerTelemetry | where timestamp > ago(3m)
+| summarize Readings = count(), Latest = max(timestamp), Temp = round(max(temperatureC), 2)
+  by freezerId
+| order by freezerId asc
+
+// G. Remove telemetry created by a rehearsal breach, if you need to
+//    .delete table FreezerTelemetry records <| FreezerTelemetry | where ...
